@@ -1,0 +1,52 @@
+name: Seite veroeffentlichen
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  pruefen-und-bauen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: exiftool installieren
+        run: sudo apt-get update -q && sudo apt-get install -y -q libimage-exiftool-perl
+
+      # Bricht ab, wenn ein Bild/Video verraeterische Metadaten hat oder falsch benannt ist.
+      - name: Medien pruefen und Liste erzeugen
+        run: python3 tools/build_media.py
+
+      # Nur das, was die Seite braucht, wird veroeffentlicht (keine Werkzeuge, kein Repo-Kram).
+      - name: Seite zusammenstellen
+        run: |
+          mkdir -p _site
+          cp index.html app.js _site/
+          cp -r assets _site/
+          mkdir -p _site/media
+          find media -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' -o -iname '*.mp4' -o -iname '*.webm' -o -name 'media.json' \) -exec cp {} _site/media/ \;
+          touch _site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  veroeffentlichen:
+    needs: pruefen-und-bauen
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

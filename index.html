@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>chocobear labs</title>
+<meta name="description" content="Portfolio von Apps, die vollständig mit KI entstanden sind. Vibe-coded, nicht klassisch entwickelt.">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3eee4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0d13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M20 5a12 12 0 1 0 7 19 10 10 0 1 1-7-19z' fill='none' stroke='%23c8b48a' stroke-width='1.5'/%3E%3C/svg%3E">
+<!-- Alles kommt von dieser Seite selbst: keine Tracker, keine fremden Server, keine Cookies. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<style>
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 300; font-display: swap; src: url(assets/fonts/cormorant-garamond-latin-300-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 300; font-display: swap; src: url(assets/fonts/cormorant-garamond-latin-300-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/cormorant-garamond-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 400; font-display: swap; src: url(assets/fonts/cormorant-garamond-latin-400-italic.woff2) format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 200; font-display: swap; src: url(assets/fonts/jetbrains-mono-latin-200-normal.woff2) format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 300; font-display: swap; src: url(assets/fonts/jetbrains-mono-latin-300-normal.woff2) format('woff2'); }
+
+/* Fine-Line-Prinzip: eine Strichstaerke, eine Tintenfarbe, viel Luft. */
+:root {
+  --bg: #f3eee4;          /* Papier */
+  --ink: #1d1b18;         /* Tinte */
+  --ink-soft: #6f6a61;
+  --line: rgba(29, 27, 24, 0.18);
+  --accent: #9a7b4f;      /* Gold, nur sparsam */
+  --star: rgba(29, 27, 24, 0.35);
+  --stroke: 1px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c0d13;        /* Nachthimmel */
+    --ink: #ece6da;
+    --ink-soft: #8d8879;
+    --line: rgba(236, 230, 218, 0.16);
+    --accent: #c8b48a;
+    --star: rgba(236, 230, 218, 0.8);
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: 19px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#sky {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main { position: relative; z-index: 1; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+.mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(48px + env(safe-area-inset-top)) 16px 64px;
+}
+.hero svg.constellation { width: min(300px, 70vw); height: auto; margin-bottom: 40px; --sw: 1.1; }
+.hero h1 {
+  font-weight: 300;
+  font-size: clamp(42px, 9vw, 84px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero p.lead {
+  max-width: 34ch;
+  margin: 28px auto 0;
+  font-size: clamp(19px, 2.6vw, 23px);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.hero .mono { margin-bottom: 20px; }
+.scroll-hint {
+  margin-top: 56px;
+  width: 1px; height: 56px;
+  background: linear-gradient(var(--ink-soft), transparent);
+  animation: drip 2.6s ease-in-out infinite;
+}
+@keyframes drip {
+  0%, 100% { transform: scaleY(0.4); transform-origin: top; opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* ---------- Abschnitte ---------- */
+section { padding: 96px 0; }
+.section-head { text-align: center; margin-bottom: 64px; }
+.section-head h2 {
+  font-weight: 300;
+  font-size: clamp(32px, 5vw, 46px);
+  margin-top: 10px;
+}
+.divider {
+  display: block;
+  width: 120px; height: 20px;
+  margin: 0 auto;
+  color: var(--ink-soft);
+}
+
+/* ---------- Apps ---------- */
+.apps { display: grid; gap: 0; }
+.app {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 40px;
+  align-items: center;
+  padding: 48px 0;
+  border-top: var(--stroke) solid var(--line);
+}
+.app:last-child { border-bottom: var(--stroke) solid var(--line); }
+.app:nth-child(even) { grid-template-columns: 1fr 180px; }
+.app:nth-child(even) .art { order: 2; }
+.art { width: 180px; height: 180px; color: var(--ink); }
+.art svg { width: 100%; height: 100%; overflow: visible; --sw: 0.7; }
+
+.app h3 {
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1.15;
+}
+.app .tagline { font-style: italic; color: var(--accent); margin: 4px 0 14px; }
+.app p.desc { max-width: 52ch; }
+.meta {
+  display: flex; flex-wrap: wrap; gap: 8px 18px;
+  margin-top: 18px;
+}
+.meta span::before { content: '✦ '; color: var(--accent); }
+.status {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 2px 10px;
+  border: var(--stroke) solid var(--line);
+  border-radius: 999px;
+}
+
+/* ---------- Wie ich baue ---------- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  counter-reset: step;
+}
+.step { text-align: center; }
+.step svg { width: 72px; height: 72px; color: var(--ink); margin-bottom: 18px; }
+.step h3 { font-weight: 400; font-size: 26px; }
+.step p { color: var(--ink-soft); margin-top: 6px; }
+
+.quote {
+  max-width: 42ch;
+  margin: 96px auto 0;
+  text-align: center;
+  font-size: clamp(20px, 2.8vw, 25px);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+footer {
+  text-align: center;
+  padding: 64px 16px calc(48px + env(safe-area-inset-bottom));
+}
+footer svg { width: 44px; height: 44px; color: var(--ink-soft); margin-bottom: 14px; }
+
+/* ---------- Bilder-Strecke ---------- */
+.strip {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 8px 16px 28px;
+  margin: 0 -16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.shot {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  margin: 0;
+  width: min(280px, 72vw);
+}
+.shot button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: var(--stroke) solid var(--line);
+  cursor: zoom-in;
+  color: inherit;
+  transition: border-color .4s ease;
+}
+.shot button:hover, .shot button:focus-visible { border-color: var(--accent); outline: none; }
+.shot img, .shot video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  background: var(--line);
+}
+.shot.wide { width: min(440px, 86vw); }
+.shot.wide img, .shot.wide video { aspect-ratio: 16 / 10; }
+.shot figcaption { margin-top: 12px; text-align: center; }
+.shot figcaption .mono { display: block; margin-bottom: 2px; }
+.shot figcaption em { color: var(--ink-soft); }
+.strip-empty { text-align: center; font-style: italic; color: var(--ink-soft); }
+.strip-filter { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 28px; }
+.strip-filter button {
+  background: transparent; color: var(--ink-soft);
+  border: var(--stroke) solid var(--line); border-radius: 999px;
+  padding: 4px 12px; cursor: pointer;
+}
+.strip-filter button[aria-pressed="true"] { color: var(--ink); border-color: var(--accent); }
+
+dialog.lightbox {
+  border: 0; padding: 0;
+  max-width: 100vw; max-height: 100vh;
+  width: 100vw; height: 100dvh;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  color: var(--ink);
+}
+dialog.lightbox::backdrop { background: transparent; }
+.lightbox-inner {
+  height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px;
+  padding: calc(56px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+}
+.lightbox-inner img, .lightbox-inner video {
+  max-width: 100%;
+  max-height: calc(100dvh - 180px);
+  border: var(--stroke) solid var(--line);
+  padding: 8px;
+}
+.lightbox-close {
+  position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 16px;
+  width: 44px; height: 44px;
+  background: transparent; border: var(--stroke) solid var(--line); border-radius: 50%;
+  color: var(--ink); font-size: 22px; line-height: 1; cursor: pointer;
+}
+
+.credits { margin-top: 18px; color: var(--ink-soft); font-size: 15px; }
+.credits a { color: inherit; }
+
+/* ---------- Tattoo-Nadel: Linien zeichnen sich auf ---------- */
+.ink path, .ink circle, .ink line, .ink polyline, .ink rect, .ink ellipse {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--sw, 1);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.ink .dot { fill: currentColor; stroke: none; opacity: 0; }
+.ink .gold { stroke: var(--accent); }
+.ink text { fill: currentColor; opacity: 0; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+.ink.drawn path, .ink.drawn circle, .ink.drawn line, .ink.drawn polyline, .ink.drawn rect, .ink.drawn ellipse {
+  transition: stroke-dashoffset 2.4s cubic-bezier(.6, .05, .3, 1);
+  stroke-dashoffset: 0;
+}
+.ink.drawn .dot, .ink.drawn text { transition: opacity 1.2s 1.6s ease; opacity: 1; }
+
+.fade { opacity: 0; transform: translateY(14px); transition: opacity 1.2s ease, transform 1.2s ease; }
+.fade.drawn { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .ink path, .ink circle, .ink line, .ink polyline, .ink rect, .ink ellipse { stroke-dashoffset: 0; transition: none !important; }
+  .ink .dot, .ink text { opacity: 1; transition: none !important; }
+  .fade { opacity: 1; transform: none; transition: none; }
+  .scroll-hint { animation: none; }
+}
+
+/* ---------- Handy ---------- */
+@media (max-width: 680px) {
+  body { font-size: 18px; }
+  .art svg { --sw: 0.86; }
+  section { padding: 72px 0; }
+  .app, .app:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: center;
+  }
+  .app:nth-child(even) .art { order: 0; }
+  .art { width: 140px; height: 140px; margin: 0 auto; }
+  .app p.desc { margin: 0 auto; }
+  .meta { justify-content: center; }
+  .steps { grid-template-columns: 1fr; gap: 48px; }
+}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main>
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <!-- Sternbild: Mondsichel, von Sternen gehalten -->
+    <svg class="constellation ink" viewBox="0 0 300 220" aria-hidden="true">
+      <path d="M176 38 a76 76 0 1 0 54 120 a62 62 0 1 1 -54 -120 z"/>
+      <polyline class="gold" points="34,52 70,30 112,44 96,82 34,52"/>
+      <line class="gold" x1="112" y1="44" x2="150" y2="22"/>
+      <polyline class="gold" points="238,30 262,64 250,104"/>
+      <line x1="12" y1="196" x2="288" y2="196"/>
+      <circle class="dot" cx="34" cy="52" r="2"/>
+      <circle class="dot" cx="70" cy="30" r="1.6"/>
+      <circle class="dot" cx="112" cy="44" r="2.2"/>
+      <circle class="dot" cx="96" cy="82" r="1.4"/>
+      <circle class="dot" cx="150" cy="22" r="1.6"/>
+      <circle class="dot" cx="238" cy="30" r="2"/>
+      <circle class="dot" cx="262" cy="64" r="1.6"/>
+      <circle class="dot" cx="250" cy="104" r="2.2"/>
+      <path d="M150 196 v-10 M144 190 h12"/>
+    </svg>
+    <p class="mono">chocobear labs</p>
+    <h1>Apps für den Alltag.<br><em>Vollständig vibe-coded.</em></h1>
+    <p class="lead">Ich bin kein Entwickler. Ich entwerfe, was eine App können und wie sie sich anfühlen soll, und setze sie im Dialog mit einer KI um.</p>
+    <div class="scroll-hint" aria-hidden="true"></div>
+  </header>
+
+  <!-- ===================== APPS ===================== -->
+  <section id="apps">
+    <div class="wrap">
+      <div class="section-head fade">
+        <svg class="divider ink" viewBox="0 0 120 20" aria-hidden="true">
+          <line x1="0" y1="10" x2="48" y2="10"/><path d="M60 2 l3 8 l-3 8 l-3 -8 z"/><line x1="72" y1="10" x2="120" y2="10"/>
+        </svg>
+        <p class="mono" style="margin-top:18px">Sammlung</p>
+        <h2>Was bisher entstanden ist</h2>
+      </div>
+
+      <div class="apps">
+
+        <!-- Mood Checker -->
+        <article class="app">
+          <div class="art">
+            <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
+              <path d="M70 18 a42 42 0 1 0 30 66 a34 34 0 1 1 -30 -66 z"/>
+              <path class="gold" d="M18 104 h18 l5 -10 l7 18 l6 -14 l4 6 h44"/>
+              <path d="M96 22 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z"/>
+              <path d="M108 46 l1 2.6 l2.6 1 l-2.6 1 l-1 2.6 l-1 -2.6 l-2.6 -1 l2.6 -1 z"/>
+              <circle class="dot" cx="84" cy="10" r="1.2"/>
+            </svg>
+          </div>
+          <div class="fade">
+            <span class="status mono">im Alltag</span>
+            <h3>Mood Checker</h3>
+            <p class="tagline">Wie geht es uns heute, wirklich?</p>
+            <p class="desc">Ein tägliches Check-in für zwei: Stimmung, Energie und Zyklus in wenigen Tipps erfasst. Die App zeigt Muster statt Vorhersagen und gibt sanfte, KI-gestützte Impulse, wie man einander heute gut begegnen kann. Die Daten bleiben privat.</p>
+            <div class="meta mono"><span>React</span><span>Flask</span><span>KI-Tipps</span><span>Push</span></div>
+          </div>
+        </article>
+
+        <!-- JuntOS -->
+        <article class="app">
+          <div class="art">
+            <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="46" cy="60" r="30"/>
+              <circle cx="74" cy="60" r="30"/>
+              <path class="gold" d="M60 18 a42 42 0 1 1 -0.1 0"/>
+              <line x1="60" y1="8" x2="60" y2="14"/>
+              <line x1="56" y1="8" x2="64" y2="8"/>
+              <circle class="dot" cx="60" cy="60" r="2"/>
+            </svg>
+          </div>
+          <div class="fade">
+            <span class="status mono">im Training</span>
+            <h3>JuntOS</h3>
+            <p class="tagline">Zwei Minuten. Zusammen.</p>
+            <p class="desc">Mikro-Workouts für zwei Menschen mit wenig Zeit. Beide trainieren im selben Timer, jede Person auf dem eigenen Niveau. Eine Trainerstimme im Helmfunk-Sound zählt an, zwei Handys bleiben synchron, und jede geschaffte Woche verlängert die gemeinsame Serie.</p>
+            <div class="meta mono"><span>PWA</span><span>Vanilla JS</span><span>Live-Sync</span><span>Audio</span></div>
+          </div>
+        </article>
+
+        <!-- Waldläufer -->
+        <article class="app">
+          <div class="art">
+            <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
+              <path d="M34 16 q46 44 0 88"/>
+              <line x1="34" y1="16" x2="34" y2="104"/>
+              <line class="gold" x1="22" y1="60" x2="104" y2="60"/>
+              <path class="gold" d="M104 60 l-8 -5 M104 60 l-8 5"/>
+              <path d="M22 60 l-6 -5 M22 60 l-6 5 M28 60 l-6 -5 M28 60 l-6 5"/>
+              <path d="M94 104 l-10 -16 h6 l-8 -12 h5 l-7 -12 l-7 12 h5 l-8 12 h6 l-10 16 z"/>
+              <line x1="80" y1="104" x2="80" y2="112"/>
+            </svg>
+          </div>
+          <div class="fade">
+            <span class="status mono">v0.10 · spielbar</span>
+            <h3>Waldläufer</h3>
+            <p class="tagline">Ein Bogen, ein Wald, kein Ende.</p>
+            <p class="desc">Ein vertikaler Arcade-Shooter für Handy und Desktop. Ein Bogenschütze hält Wellen aus dem Wald auf, alle fünfzig Gegner wartet ein Boss, danach wählt man einen Perk. Pixelart, Fächerschuss, Waldsturm und ein Highscore, der nie lange hält.</p>
+            <div class="meta mono"><span>Canvas</span><span>Vite</span><span>PWA</span><span>Offline</span></div>
+          </div>
+        </article>
+
+        <!-- Farbdorf -->
+        <article class="app">
+          <div class="art">
+            <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
+              <path d="M24 98 v-36 l26 -22 l26 22 v36 z"/>
+              <path d="M44 98 v-18 h12 v18"/>
+              <rect x="30" y="66" width="10" height="10"/>
+              <line x1="10" y1="98" x2="112" y2="98"/>
+              <circle cx="94" cy="62" r="14"/>
+              <line x1="94" y1="76" x2="94" y2="98"/>
+              <rect class="gold" x="70" y="16" width="8" height="8"/>
+              <rect class="gold" x="82" y="24" width="8" height="8"/>
+              <rect class="gold" x="94" y="12" width="8" height="8"/>
+              <path d="M66 30 q-6 4 -10 10" />
+            </svg>
+          </div>
+          <div class="fade">
+            <span class="status mono">als Geschenk</span>
+            <h3>Farbdorf</h3>
+            <p class="tagline">Jede Farbe baut ein Stück Zuhause.</p>
+            <p class="desc">Ein ruhiges Puzzle-Aufbauspiel. Man tippt eine Farbe, kleine Helfer tragen die Pixel eines Bildes in Sortierbahnen, und mit jedem gelösten Bild wächst ein liebevoll komponiertes Dorf. Gemacht als Geschenk, damit etwas Schönes langsam entsteht.</p>
+            <div class="meta mono"><span>Pixelart</span><span>Idle</span><span>Vanilla JS</span><span>Push</span></div>
+          </div>
+        </article>
+
+        <!-- Lesespiel -->
+        <article class="app">
+          <div class="art">
+            <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
+              <path d="M60 36 q-22 -10 -46 -4 v62 q24 -6 46 4 z"/>
+              <path d="M60 36 q22 -10 46 -4 v62 q-24 -6 -46 4 z"/>
+              <line x1="60" y1="36" x2="60" y2="98"/>
+              <text x="24" y="70" font-size="16">MA</text>
+              <text x="70" y="70" font-size="16">MA</text>
+              <path class="gold" d="M60 10 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z"/>
+            </svg>
+          </div>
+          <div class="fade">
+            <span class="status mono">in Arbeit</span>
+            <h3>Lesespiel</h3>
+            <p class="tagline">Aus M und A wird MA.</p>
+            <p class="desc">Ein Lese-Lernspiel nach der Silbenmethode für Kinder, die gerade lesen lernen. Aus Lauten werden Silben, aus Silben Wörter. Vorgesprochene Silben, 16-Bit-Pixelart und eine Fantasy-Welt, die mit jedem gelesenen Wort grösser wird.</p>
+            <div class="meta mono"><span>React</span><span>Didaktik</span><span>Audio</span><span>Tablet</span></div>
+          </div>
+        </article>
+
+        <!-- Ämtli -->
+        <article class="app">
+          <div class="art">
+            <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
+              <path d="M60 12 l13 28 l30 3 l-23 20 l7 30 l-27 -16 l-27 16 l7 -30 l-23 -20 l30 -3 z"/>
+              <polyline class="gold" points="46,62 56,72 76,50"/>
+              <circle class="dot" cx="16" cy="20" r="1.4"/>
+              <circle class="dot" cx="106" cy="104" r="1.4"/>
+              <path d="M100 18 l1 3 l3 1 l-3 1 l-1 3 l-1 -3 l-3 -1 l3 -1 z"/>
+            </svg>
+          </div>
+          <div class="fade">
+            <span class="status mono">im Einsatz</span>
+            <h3>Ämtli</h3>
+            <p class="tagline">Haushalt, aber mit Überraschung.</p>
+            <p class="desc">Statt eines laminierten Zettels eine Tablet-App, mit der Kinder, die noch nicht lesen können, ihre Aufgaben im Haushalt abhaken. Nur Symbole und Vorlesen, nach jeder Aufgabe eine lustige Belohnung, und ein Elternbereich, in dem Witze erst freigegeben werden, bevor ein Kind sie hört.</p>
+            <div class="meta mono"><span>Tablet</span><span>PWA</span><span>Vorlesen</span><span>KI-Witze</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BILDER-STRECKE ===================== -->
+  <section id="bilder">
+    <div class="wrap">
+      <div class="section-head fade">
+        <svg class="divider ink" viewBox="0 0 120 20" aria-hidden="true">
+          <line x1="0" y1="10" x2="44" y2="10"/><rect x="52" y="3" width="16" height="14"/><line x1="76" y1="10" x2="120" y2="10"/>
+        </svg>
+        <p class="mono" style="margin-top:18px">Einblicke</p>
+        <h2>Bilder &amp; Bewegung</h2>
+      </div>
+      <div class="strip-filter" id="stripFilter" role="group" aria-label="Nach App filtern" hidden></div>
+      <div class="strip" id="strip" tabindex="0" aria-label="Bilder-Strecke, seitlich wischen"></div>
+      <p class="strip-empty" id="stripEmpty" hidden>Bilder folgen.</p>
+    </div>
+  </section>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Grossansicht">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Schliessen">&times;</button>
+    <div class="lightbox-inner" id="lightboxInner"></div>
+  </dialog>
+
+  <!-- ===================== WIE ICH BAUE ===================== -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head fade">
+        <svg class="divider ink" viewBox="0 0 120 20" aria-hidden="true">
+          <line x1="0" y1="10" x2="48" y2="10"/><circle cx="60" cy="10" r="5"/><line x1="72" y1="10" x2="120" y2="10"/>
+        </svg>
+        <p class="mono" style="margin-top:18px">Arbeitsweise</p>
+        <h2>Was vibe-coded hier heisst</h2>
+      </div>
+
+      <div class="steps">
+        <div class="step fade">
+          <svg class="ink" viewBox="0 0 72 72" aria-hidden="true">
+            <path d="M14 18 h44 v28 h-24 l-12 10 v-10 h-8 z"/>
+            <line class="gold" x1="22" y1="28" x2="50" y2="28"/>
+            <line x1="22" y1="36" x2="42" y2="36"/>
+          </svg>
+          <h3>Entwerfen</h3>
+          <p>Ich lege fest, welches Problem eine App löst, wie sie aufgebaut ist und wie sie aussehen soll. In normaler Sprache, nicht in Code.</p>
+        </div>
+        <div class="step fade">
+          <svg class="ink" viewBox="0 0 72 72" aria-hidden="true">
+            <polyline points="24,22 12,36 24,50"/>
+            <polyline points="48,22 60,36 48,50"/>
+            <line class="gold" x1="40" y1="16" x2="32" y2="56"/>
+          </svg>
+          <h3>Umsetzen</h3>
+          <p>Den Code schreibt eine KI. Ich prüfe die Ergebnisse, stelle Rückfragen und entscheide, was bleibt und was neu gemacht wird.</p>
+        </div>
+        <div class="step fade">
+          <svg class="ink" viewBox="0 0 72 72" aria-hidden="true">
+            <circle cx="36" cy="36" r="22"/>
+            <path class="gold" d="M36 22 l3 10 l10 4 l-10 4 l-3 10 l-3 -10 l-10 -4 l10 -4 z"/>
+          </svg>
+          <h3>Im Alltag testen</h3>
+          <p>Die Apps werden tatsächlich benutzt. Was dort nicht funktioniert, wird zur nächsten Runde.</p>
+        </div>
+      </div>
+
+      <p class="quote fade">Ich habe keine Ausbildung als Entwickler. Alles auf dieser Seite, auch die Seite selbst, ist durch Entwerfen und Prüfen entstanden, nicht durch eigenes Programmieren.</p>
+    </div>
+  </section>
+
+  <footer>
+    <svg class="ink" viewBox="0 0 44 44" aria-hidden="true">
+      <path d="M26 6 a16 16 0 1 0 12 26 a13 13 0 1 1 -12 -26 z"/>
+    </svg>
+    <p class="mono">chocobear labs · 2026</p>
+    <p class="credits">Pixelart in den Spielen: <a href="https://kenmi-art.itch.io/cute-fantasy-rpg" rel="noopener noreferrer" target="_blank">Cute Fantasy von Kenmi</a>.<br>Schriften: Cormorant Garamond und JetBrains Mono (SIL Open Font License).<br>Keine Cookies, kein Tracking.</p>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
