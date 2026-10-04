@@ -105,7 +105,7 @@
       if (poster) v.setAttribute('poster', poster);
       return v;
     }
-    return el('img', { src: src, alt: item.caption || APPS[item.app] || '', loading: big ? 'eager' : 'lazy', decoding: 'async' });
+    return el('img', { src: src, alt: item.alt || item.caption || APPS[item.app] || '', loading: big ? 'eager' : 'lazy', decoding: 'async' });
   }
 
   function open(item) {
@@ -146,7 +146,7 @@
     list.forEach(function (it) {
       var m = media(it, false);
       if (!m) return;
-      var btn = el('button', { type: 'button', class: 'shot', 'aria-label': 'Gross ansehen: ' + (it.caption || APPS[it.app] || 'Bild') });
+      var btn = el('button', { type: 'button', class: 'shot', 'aria-label': 'Gross ansehen: ' + (it.alt || it.caption || APPS[it.app] || 'Bild') });
       if (it.caption) btn.title = it.caption;
       btn.appendChild(m);
       btn.addEventListener('click', function () { open(it); });

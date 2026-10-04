@@ -1,13 +1,92 @@
 [
-  {"datei": "juntos--geteilter-timer.png", "text": "Zwei Menschen, ein Timer, jede Person auf ihrem Niveau"},
-  {"datei": "juntos--training.mp4", "text": "Eine Session läuft"},
-  {"datei": "juntos--wochenziel.png", "text": "Wochenziel und Serie"},
-  {"datei": "juntos--session-plan.png", "text": "Der Plan für heute"},
-  {"datei": "aemtli--abhaken--breit.mp4", "text": "Abhaken und belohnt werden"},
-  {"datei": "aemtli--aufgaben--breit.png", "text": "Die Aufgaben von heute, nur mit Symbolen"},
-  {"datei": "aemtli--wer-wars--breit.png", "text": "Wer hat es gemacht?"},
-  {"datei": "aemtli--belohnung--breit.png", "text": "Ein Witz als Belohnung"},
-  {"datei": "waldlaeufer--titelbild.png", "text": "Startbildschirm"},
-  {"datei": "waldlaeufer--spielszene.mp4", "text": "Ein Lauf durch den Wald"},
-  {"datei": "waldlaeufer--im-wald.png", "text": "Gegnerwellen, Hindernisse und Herzen"}
+  {
+    "datei": "juntos--01.webp",
+    "text": "",
+    "alt": "Zwei Menschen. Ein Timer. Gemeinsam trainieren, auch wenn jede Person etwas anderes kann."
+  },
+  {
+    "datei": "juntos--02.webp",
+    "text": "",
+    "alt": "Jede Person auf ihrem Niveau. Dieselbe Übung, die passende Stufe. Niemand wartet, niemand hetzt."
+  },
+  {
+    "datei": "juntos--03.webp",
+    "text": "",
+    "alt": "Vier kurze Sessions pro Woche. Ein Ziel, das in den Alltag passt. Jede geschaffte Woche verlängert die Serie."
+  },
+  {
+    "datei": "juntos--04.webp",
+    "text": "",
+    "alt": "Ein Handy oder zwei. Beide Bildschirme laufen synchron. Die Ansage kommt von einem Gerät."
+  },
+  {
+    "datei": "juntos--05.webp",
+    "text": "",
+    "alt": "Klare Ansagen, kurze Pausen. Die App sagt, was als Nächstes kommt. Ihr müsst nur mitmachen."
+  },
+  {
+    "datei": "juntos--06.webp",
+    "text": "",
+    "alt": "Zu leicht? Zu schwer? Nach jeder Session passt die App die Stufen für beide an."
+  },
+  {
+    "datei": "waldlaeufer--01.webp",
+    "text": "",
+    "alt": "Ein Bogen. Ein Wald. Ein Arcade-Shooter für zwischendurch, gespielt mit einem Daumen."
+  },
+  {
+    "datei": "waldlaeufer--02.webp",
+    "text": "",
+    "alt": "Wellen. Dann der Boss. Wer genug Gegner besiegt, ruft den Wächter der Welt herbei."
+  },
+  {
+    "datei": "waldlaeufer--03.webp",
+    "text": "",
+    "alt": "Jeder Aufstieg, eine Entscheidung. Nach jedem Boss eine neue Fähigkeit. Jeder Lauf spielt sich anders."
+  },
+  {
+    "datei": "waldlaeufer--04.webp",
+    "text": "",
+    "alt": "Vom Wald in die Wüste. Vier Welten mit eigenen Gegnern und Hindernissen."
+  },
+  {
+    "datei": "waldlaeufer--05.webp",
+    "text": "",
+    "alt": "Tiefer hinab ins Dungeon. Skelette, Magier und enge Säulengänge."
+  },
+  {
+    "datei": "waldlaeufer--06.webp",
+    "text": "",
+    "alt": "Bis zum Vulkan-Turm. Am Ende jeder Welt wartet ein Mega-Boss."
+  },
+  {
+    "datei": "aemtli--01.webp",
+    "text": "",
+    "alt": "Ämtli ohne laminierten Zettel. Die Aufgaben von heute, gross und mit Symbolen. Lesen ist nicht nötig."
+  },
+  {
+    "datei": "aemtli--02.webp",
+    "text": "",
+    "alt": "Ein Tipp aufs eigene Gesicht. Wer etwas erledigt hat, tippt sich selbst an. Fertig."
+  },
+  {
+    "datei": "aemtli--03.webp",
+    "text": "",
+    "alt": "Jede Aufgabe wird belohnt. Ein Witz, vorgelesen, direkt nach dem Abhaken."
+  },
+  {
+    "datei": "aemtli--04.webp",
+    "text": "",
+    "alt": "Gemeinsam bis zum Schluss. Sind alle Ämtli erledigt, gibt es ein kleines Finale."
+  },
+  {
+    "datei": "aemtli--05.webp",
+    "text": "",
+    "alt": "Eltern wählen, was heute zählt. Geschützt durch eine PIN. Die Kinder sehen nur die Auswahl."
+  },
+  {
+    "datei": "aemtli--06.webp",
+    "text": "",
+    "alt": "Fair verteilt, auf einen Blick. Der Verlauf zeigt, wer was wie oft macht und was jemand nie macht."
+  }
 ]

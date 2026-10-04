@@ -12,7 +12,7 @@ Dateinamen:  <app>--<titel>.<endung>      z.B.  waldlaeufer--boss-kampf.png
 Breitformat: <app>--<titel>--breit.<endung>
 Video-Vorschaubild (optional): gleiche Basis wie das Video, Endung .jpg/.png/.webp
 Beschriftungen und Reihenfolge (optional): media/texte.json
-    [{"datei": "waldlaeufer--boss-kampf.png", "text": "Der erste Boss"}]
+    [{"datei": "waldlaeufer--boss-kampf.png", "text": "Der erste Boss", "alt": "Beschreibung fuer Screenreader"}]
 """
 import json
 import re
@@ -145,6 +145,11 @@ def main():
         if len(text) > 140:
             fehler(probleme, "texte.json", f"Text zu '{datei}' ist laenger als 140 Zeichen")
         eintraege[datei]["caption"] = text
+        alt = str(t.get("alt", "")).strip()
+        if len(alt) > 240:
+            fehler(probleme, "texte.json", f"Alternativtext zu '{datei}' ist laenger als 240 Zeichen")
+        if alt:
+            eintraege[datei]["alt"] = alt
         reihenfolge.append(datei)
 
     if probleme:
