@@ -66,7 +66,8 @@
   requestAnimationFrame(draw);
 })();
 
-// Bilder-Strecke: liest media/media.json (erzeugt die GitHub Action aus dem Ordner media/).
+// Bilder-Lanes: liest media/media.json (erzeugt die GitHub Action aus dem Ordner media/)
+// und hängt die Bilder jeder App direkt unter ihre Beschreibung.
 // Alles wird als Text bzw. per Attribut gesetzt, nie als HTML.
 (function () {
   var APPS = {
@@ -78,12 +79,8 @@
     'aemtli': 'Ämtli',
     'allgemein': 'Allgemein'
   };
-  var strip = document.getElementById('strip');
-  var empty = document.getElementById('stripEmpty');
-  var filter = document.getElementById('stripFilter');
   var box = document.getElementById('lightbox');
   var inner = document.getElementById('lightboxInner');
-  var items = [];
 
   function el(tag, attrs, text) {
     var e = document.createElement(tag);
@@ -130,52 +127,36 @@
     if (box.close) box.close(); else box.removeAttribute('open');
   }
 
-  function render(app) {
-    strip.textContent = '';
-    var list = items.filter(function (it) { return !app || it.app === app; });
+  // Rand nur dort ausblenden, wo es tatsächlich weitergeht.
+  function edges(lane) {
+    var max = lane.scrollWidth - lane.clientWidth;
+    lane.classList.toggle('more-l', lane.scrollLeft > 2);
+    lane.classList.toggle('more-r', max - lane.scrollLeft > 2);
+  }
+
+  // Videos nur abspielen, solange sie sichtbar sind (spart Akku).
+  var videoIo = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { var p = e.target.play(); if (p && p.catch) p.catch(function () {}); }
+      else e.target.pause();
+    });
+  }, { threshold: 0.6 }) : null;
+
+  function fill(lane, list) {
     list.forEach(function (it) {
       var m = media(it, false);
       if (!m) return;
-      var fig = el('figure', { class: 'shot' + (it.wide ? ' wide' : '') });
-      var btn = el('button', { type: 'button', 'aria-label': 'Gross ansehen: ' + (it.caption || APPS[it.app] || 'Bild') });
+      var btn = el('button', { type: 'button', class: 'shot', 'aria-label': 'Gross ansehen: ' + (it.caption || APPS[it.app] || 'Bild') });
+      if (it.caption) btn.title = it.caption;
       btn.appendChild(m);
       btn.addEventListener('click', function () { open(it); });
-      fig.appendChild(btn);
-      var cap = el('figcaption', {});
-      cap.appendChild(el('span', { class: 'mono' }, APPS[it.app] || ''));
-      if (it.caption) cap.appendChild(el('em', {}, it.caption));
-      fig.appendChild(cap);
-      strip.appendChild(fig);
+      lane.appendChild(btn);
+      if (videoIo && m.tagName === 'VIDEO') videoIo.observe(m);
     });
-    // Videos in der Strecke nur abspielen, solange sie sichtbar sind (spart Akku).
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { var p = e.target.play(); if (p && p.catch) p.catch(function () {}); }
-          else e.target.pause();
-        });
-      }, { threshold: 0.6 });
-      strip.querySelectorAll('video').forEach(function (v) { io.observe(v); });
-    }
-    empty.hidden = list.length > 0;
-    strip.hidden = list.length === 0;
-  }
-
-  function buildFilter() {
-    var apps = [];
-    items.forEach(function (it) { if (APPS[it.app] && apps.indexOf(it.app) < 0) apps.push(it.app); });
-    if (apps.length < 2) return;
-    var all = [null].concat(apps);
-    all.forEach(function (a) {
-      var b = el('button', { type: 'button', class: 'mono', 'aria-pressed': a === null ? 'true' : 'false' }, a ? APPS[a] : 'Alle');
-      b.addEventListener('click', function () {
-        filter.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
-        b.setAttribute('aria-pressed', 'true');
-        render(a);
-      });
-      filter.appendChild(b);
-    });
-    filter.hidden = false;
+    if (!lane.children.length) return;
+    lane.hidden = false;
+    lane.addEventListener('scroll', function () { edges(lane); }, { passive: true });
+    edges(lane);
   }
 
   document.getElementById('lightboxClose').addEventListener('click', close);
@@ -186,8 +167,12 @@
     .then(function (r) { return r.ok ? r.json() : []; })
     .catch(function () { return []; })
     .then(function (data) {
-      items = Array.isArray(data) ? data.filter(function (it) { return it && typeof it.file === 'string'; }) : [];
-      buildFilter();
-      render(null);
+      var items = Array.isArray(data) ? data.filter(function (it) { return it && typeof it.file === 'string'; }) : [];
+      var lanes = document.querySelectorAll('.app[data-app] .lane');
+      lanes.forEach(function (lane) {
+        var app = lane.parentNode.getAttribute('data-app');
+        fill(lane, items.filter(function (it) { return it.app === app; }));
+      });
+      addEventListener('resize', function () { lanes.forEach(edges); });
     });
 })();

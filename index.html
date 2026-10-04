@@ -129,7 +129,7 @@ section { padding: 96px 0; }
 .app {
   display: grid;
   grid-template-columns: 180px 1fr;
-  gap: 40px;
+  gap: 28px 40px;
   align-items: center;
   padding: 48px 0;
   border-top: var(--stroke) solid var(--line);
@@ -166,55 +166,50 @@ footer {
 }
 footer svg { width: 44px; height: 44px; color: var(--ink-soft); margin-bottom: 14px; }
 
-/* ---------- Bilder-Strecke ---------- */
-.strip {
+/* ---------- Bilder-Lane pro App ---------- */
+.lane {
+  --fl: 0px; --fr: 0px;
+  grid-column: 1 / -1;
+  order: 3;
   display: flex;
-  gap: 20px;
+  gap: 14px;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 8px 16px 28px;
-  margin: 0 -16px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line) transparent;
+  scroll-snap-type: x proximity;
+  scroll-padding: 0 4px;
+  padding: 4px 4px 14px;
+  scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  /* Rand weich ausblenden, nur auf der Seite, wo noch Bilder folgen */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fl), #000 calc(100% - var(--fr)), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--fl), #000 calc(100% - var(--fr)), transparent 100%);
 }
-.shot {
+.lane[hidden] { display: none; }
+.lane::-webkit-scrollbar { display: none; }
+.lane.more-l { --fl: 48px; }
+.lane.more-r { --fr: 48px; }
+.lane:focus-visible { outline: var(--stroke) solid var(--accent); outline-offset: 4px; border-radius: 18px; }
+.lane .shot {
   flex: 0 0 auto;
-  scroll-snap-align: center;
-  margin: 0;
-  width: min(280px, 72vw);
-}
-.shot button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background: transparent;
+  scroll-snap-align: start;
+  width: 168px;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 16px;
   border: var(--stroke) solid var(--line);
-  cursor: zoom-in;
+  background: var(--line);
   color: inherit;
+  cursor: zoom-in;
   transition: border-color .4s ease;
 }
-.shot button:hover, .shot button:focus-visible { border-color: var(--accent); outline: none; }
-.shot img, .shot video {
+.lane .shot:hover, .lane .shot:focus-visible { border-color: var(--accent); outline: none; }
+.lane .shot img, .lane .shot video {
   display: block;
-  width: 100%;
-  aspect-ratio: 9 / 16;
+  width: 100%; height: 100%;
   object-fit: cover;
-  background: var(--line);
+  transition: transform .8s ease;
 }
-.shot.wide { width: min(440px, 86vw); }
-.shot.wide img, .shot.wide video { aspect-ratio: 16 / 10; }
-.shot figcaption { margin-top: 12px; text-align: center; }
-.shot figcaption .mono { display: block; margin-bottom: 2px; }
-.shot figcaption em { color: var(--ink-soft); }
-.strip-empty { text-align: center; font-style: italic; color: var(--ink-soft); }
-.strip-filter { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 28px; }
-.strip-filter button {
-  background: transparent; color: var(--ink-soft);
-  border: var(--stroke) solid var(--line); border-radius: 999px;
-  padding: 4px 12px; cursor: pointer;
-}
-.strip-filter button[aria-pressed="true"] { color: var(--ink); border-color: var(--accent); }
+.lane .shot:hover img, .lane .shot:hover video { transform: scale(1.04); }
 
 dialog.lightbox {
   border: 0; padding: 0;
@@ -236,6 +231,7 @@ dialog.lightbox::backdrop { background: transparent; }
   max-height: calc(100dvh - 180px);
   border: var(--stroke) solid var(--line);
   padding: 8px;
+  border-radius: 16px;
 }
 .lightbox-close {
   position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 16px;
@@ -291,6 +287,8 @@ dialog.lightbox::backdrop { background: transparent; }
   .art { width: 140px; height: 140px; margin: 0 auto; }
   .app p.desc { margin: 0 auto; }
   .meta { justify-content: center; }
+  .lane { gap: 12px; }
+  .lane .shot { width: 136px; border-radius: 14px; }
 }
 </style>
 </head>
@@ -337,7 +335,7 @@ dialog.lightbox::backdrop { background: transparent; }
       <div class="apps">
 
         <!-- Mood Checker -->
-        <article class="app">
+        <article class="app" data-app="mood-checker">
           <div class="art">
             <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
               <path d="M70 18 a42 42 0 1 0 30 66 a34 34 0 1 1 -30 -66 z"/>
@@ -354,10 +352,11 @@ dialog.lightbox::backdrop { background: transparent; }
             <p class="desc">Ein tägliches Check-in für zwei: Stimmung, Energie und Zyklus in wenigen Tipps erfasst. Die App zeigt Muster statt Vorhersagen und gibt sanfte, KI-gestützte Impulse, wie man einander heute gut begegnen kann. Die Daten bleiben privat.</p>
             <div class="meta mono"><span>React</span><span>Flask</span><span>KI-Tipps</span><span>Push</span></div>
           </div>
+          <div class="lane" tabindex="0" aria-label="Einblicke in Mood Checker, seitlich wischen" hidden></div>
         </article>
 
         <!-- JuntOS -->
-        <article class="app">
+        <article class="app" data-app="juntos">
           <div class="art">
             <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
               <circle cx="46" cy="60" r="30"/>
@@ -375,10 +374,11 @@ dialog.lightbox::backdrop { background: transparent; }
             <p class="desc">Mikro-Workouts für zwei Menschen mit wenig Zeit. Beide trainieren im selben Timer, jede Person auf dem eigenen Niveau. Eine Trainerstimme im Helmfunk-Sound zählt an, zwei Handys bleiben synchron, und jede geschaffte Woche verlängert die gemeinsame Serie.</p>
             <div class="meta mono"><span>PWA</span><span>Vanilla JS</span><span>Live-Sync</span><span>Audio</span></div>
           </div>
+          <div class="lane" tabindex="0" aria-label="Einblicke in JuntOS, seitlich wischen" hidden></div>
         </article>
 
         <!-- Waldläufer -->
-        <article class="app">
+        <article class="app" data-app="waldlaeufer">
           <div class="art">
             <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
               <path d="M34 16 q46 44 0 88"/>
@@ -397,10 +397,11 @@ dialog.lightbox::backdrop { background: transparent; }
             <p class="desc">Ein vertikaler Arcade-Shooter für Handy und Desktop. Ein Bogenschütze hält Wellen aus dem Wald auf, alle fünfzig Gegner wartet ein Boss, danach wählt man einen Perk. Pixelart, Fächerschuss, Waldsturm und ein Highscore, der nie lange hält.</p>
             <div class="meta mono"><span>Canvas</span><span>Vite</span><span>PWA</span><span>Offline</span></div>
           </div>
+          <div class="lane" tabindex="0" aria-label="Einblicke in Waldläufer, seitlich wischen" hidden></div>
         </article>
 
         <!-- Farbdorf -->
-        <article class="app">
+        <article class="app" data-app="farbdorf">
           <div class="art">
             <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
               <path d="M24 98 v-36 l26 -22 l26 22 v36 z"/>
@@ -422,10 +423,11 @@ dialog.lightbox::backdrop { background: transparent; }
             <p class="desc">Ein ruhiges Puzzle-Aufbauspiel. Man tippt eine Farbe, kleine Helfer tragen die Pixel eines Bildes in Sortierbahnen, und mit jedem gelösten Bild wächst ein liebevoll komponiertes Dorf. Gemacht als Geschenk, damit etwas Schönes langsam entsteht.</p>
             <div class="meta mono"><span>Pixelart</span><span>Idle</span><span>Vanilla JS</span><span>Push</span></div>
           </div>
+          <div class="lane" tabindex="0" aria-label="Einblicke in Farbdorf, seitlich wischen" hidden></div>
         </article>
 
         <!-- Lesespiel -->
-        <article class="app">
+        <article class="app" data-app="lesespiel">
           <div class="art">
             <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
               <path d="M60 36 q-22 -10 -46 -4 v62 q24 -6 46 4 z"/>
@@ -443,10 +445,11 @@ dialog.lightbox::backdrop { background: transparent; }
             <p class="desc">Ein Lese-Lernspiel nach der Silbenmethode für Kinder, die gerade lesen lernen. Aus Lauten werden Silben, aus Silben Wörter. Vorgesprochene Silben, 16-Bit-Pixelart und eine Fantasy-Welt, die mit jedem gelesenen Wort grösser wird.</p>
             <div class="meta mono"><span>React</span><span>Didaktik</span><span>Audio</span><span>Tablet</span></div>
           </div>
+          <div class="lane" tabindex="0" aria-label="Einblicke in Lesespiel, seitlich wischen" hidden></div>
         </article>
 
         <!-- Ämtli -->
-        <article class="app">
+        <article class="app" data-app="aemtli">
           <div class="art">
             <svg class="ink" viewBox="0 0 120 120" aria-hidden="true">
               <path d="M60 12 l13 28 l30 3 l-23 20 l7 30 l-27 -16 l-27 16 l7 -30 l-23 -20 l30 -3 z"/>
@@ -463,25 +466,10 @@ dialog.lightbox::backdrop { background: transparent; }
             <p class="desc">Statt eines laminierten Zettels eine Tablet-App, mit der Kinder, die noch nicht lesen können, ihre Aufgaben im Haushalt abhaken. Nur Symbole und Vorlesen, nach jeder Aufgabe eine lustige Belohnung, und ein Elternbereich, in dem Witze erst freigegeben werden, bevor ein Kind sie hört.</p>
             <div class="meta mono"><span>Tablet</span><span>PWA</span><span>Vorlesen</span><span>KI-Witze</span></div>
           </div>
+          <div class="lane" tabindex="0" aria-label="Einblicke in Ämtli, seitlich wischen" hidden></div>
         </article>
 
       </div>
-    </div>
-  </section>
-
-  <!-- ===================== BILDER-STRECKE ===================== -->
-  <section id="bilder">
-    <div class="wrap">
-      <div class="section-head fade">
-        <svg class="divider ink" viewBox="0 0 120 20" aria-hidden="true">
-          <line x1="0" y1="10" x2="44" y2="10"/><rect x="52" y="3" width="16" height="14"/><line x1="76" y1="10" x2="120" y2="10"/>
-        </svg>
-        <p class="mono" style="margin-top:18px">Einblicke</p>
-        <h2>Bilder &amp; Bewegung</h2>
-      </div>
-      <div class="strip-filter" id="stripFilter" role="group" aria-label="Nach App filtern" hidden></div>
-      <div class="strip" id="strip" tabindex="0" aria-label="Bilder-Strecke, seitlich wischen"></div>
-      <p class="strip-empty" id="stripEmpty" hidden>Bilder folgen.</p>
     </div>
   </section>
 

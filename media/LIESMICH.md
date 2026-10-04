@@ -1,11 +1,15 @@
-# Bilder und Videos für die Bilder-Strecke
+# Bilder und Videos für die Bilder-Lanes
+
+Jede App zeigt ihre Bilder als seitlich wischbare Reihe quadratischer Kacheln direkt unter der Beschreibung.
+Querformate werden dort mittig quadratisch zugeschnitten, in der Grossansicht erscheinen sie vollständig.
 
 ## Name
 
 `<app>--<titel>.<endung>`, zum Beispiel `waldlaeufer--boss-kampf.png`.
 Querformat: `waldlaeufer--level-auswahl--breit.png`.
 
-Apps: `mood-checker`, `juntos`, `waldlaeufer`, `farbdorf`, `lesespiel`, `aemtli`, `allgemein`.
+Apps: `mood-checker`, `juntos`, `waldlaeufer`, `farbdorf`, `lesespiel`, `aemtli`.
+(`allgemein` ist erlaubt, wird aber aktuell nirgends angezeigt, weil jede Lane zu einer App gehört.)
 Erlaubt: jpg, png, webp, gif (max. 5 MB) und mp4, webm (max. 40 MB).
 Vorschaubild für ein Video: gleicher Name, aber `.jpg`/`.png`.
 
