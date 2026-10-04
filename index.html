@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>chocobear labs</title>
-<meta name="description" content="Portfolio von Apps, die vollständig mit KI entstanden sind. Vibe-coded, nicht klassisch entwickelt.">
+<meta name="description" content="Kleine Apps und Spiele für den Alltag. Entworfen von mir, vibe-coded mit KI.">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3eee4">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0d13">
@@ -160,27 +160,6 @@ section { padding: 96px 0; }
   border-radius: 999px;
 }
 
-/* ---------- Wie ich baue ---------- */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  counter-reset: step;
-}
-.step { text-align: center; }
-.step svg { width: 72px; height: 72px; color: var(--ink); margin-bottom: 18px; }
-.step h3 { font-weight: 400; font-size: 26px; }
-.step p { color: var(--ink-soft); margin-top: 6px; }
-
-.quote {
-  max-width: 42ch;
-  margin: 96px auto 0;
-  text-align: center;
-  font-size: clamp(20px, 2.8vw, 25px);
-  font-style: italic;
-  line-height: 1.35;
-}
-
 footer {
   text-align: center;
   padding: 64px 16px calc(48px + env(safe-area-inset-bottom));
@@ -312,7 +291,6 @@ dialog.lightbox::backdrop { background: transparent; }
   .art { width: 140px; height: 140px; margin: 0 auto; }
   .app p.desc { margin: 0 auto; }
   .meta { justify-content: center; }
-  .steps { grid-template-columns: 1fr; gap: 48px; }
 }
 </style>
 </head>
@@ -340,8 +318,8 @@ dialog.lightbox::backdrop { background: transparent; }
       <path d="M150 196 v-10 M144 190 h12"/>
     </svg>
     <p class="mono">chocobear labs</p>
-    <h1>Apps für den Alltag.<br><em>Vollständig vibe-coded.</em></h1>
-    <p class="lead">Ich bin kein Entwickler. Ich entwerfe, was eine App können und wie sie sich anfühlen soll, und setze sie im Dialog mit einer KI um.</p>
+    <h1>Apps für den <em>Alltag.</em></h1>
+    <p class="lead">Kleine Werkzeuge und Spiele. Entworfen von mir, vibe-coded mit KI.</p>
     <div class="scroll-hint" aria-hidden="true"></div>
   </header>
 
@@ -511,50 +489,6 @@ dialog.lightbox::backdrop { background: transparent; }
     <button class="lightbox-close" id="lightboxClose" aria-label="Schliessen">&times;</button>
     <div class="lightbox-inner" id="lightboxInner"></div>
   </dialog>
-
-  <!-- ===================== WIE ICH BAUE ===================== -->
-  <section id="how">
-    <div class="wrap">
-      <div class="section-head fade">
-        <svg class="divider ink" viewBox="0 0 120 20" aria-hidden="true">
-          <line x1="0" y1="10" x2="48" y2="10"/><circle cx="60" cy="10" r="5"/><line x1="72" y1="10" x2="120" y2="10"/>
-        </svg>
-        <p class="mono" style="margin-top:18px">Arbeitsweise</p>
-        <h2>Was vibe-coded hier heisst</h2>
-      </div>
-
-      <div class="steps">
-        <div class="step fade">
-          <svg class="ink" viewBox="0 0 72 72" aria-hidden="true">
-            <path d="M14 18 h44 v28 h-24 l-12 10 v-10 h-8 z"/>
-            <line class="gold" x1="22" y1="28" x2="50" y2="28"/>
-            <line x1="22" y1="36" x2="42" y2="36"/>
-          </svg>
-          <h3>Entwerfen</h3>
-          <p>Ich lege fest, welches Problem eine App löst, wie sie aufgebaut ist und wie sie aussehen soll. In normaler Sprache, nicht in Code.</p>
-        </div>
-        <div class="step fade">
-          <svg class="ink" viewBox="0 0 72 72" aria-hidden="true">
-            <polyline points="24,22 12,36 24,50"/>
-            <polyline points="48,22 60,36 48,50"/>
-            <line class="gold" x1="40" y1="16" x2="32" y2="56"/>
-          </svg>
-          <h3>Umsetzen</h3>
-          <p>Den Code schreibt eine KI. Ich prüfe die Ergebnisse, stelle Rückfragen und entscheide, was bleibt und was neu gemacht wird.</p>
-        </div>
-        <div class="step fade">
-          <svg class="ink" viewBox="0 0 72 72" aria-hidden="true">
-            <circle cx="36" cy="36" r="22"/>
-            <path class="gold" d="M36 22 l3 10 l10 4 l-10 4 l-3 10 l-3 -10 l-10 -4 l10 -4 z"/>
-          </svg>
-          <h3>Im Alltag testen</h3>
-          <p>Die Apps werden tatsächlich benutzt. Was dort nicht funktioniert, wird zur nächsten Runde.</p>
-        </div>
-      </div>
-
-      <p class="quote fade">Ich habe keine Ausbildung als Entwickler. Alles auf dieser Seite, auch die Seite selbst, ist durch Entwerfen und Prüfen entstanden, nicht durch eigenes Programmieren.</p>
-    </div>
-  </section>
 
   <footer>
     <svg class="ink" viewBox="0 0 44 44" aria-hidden="true">
